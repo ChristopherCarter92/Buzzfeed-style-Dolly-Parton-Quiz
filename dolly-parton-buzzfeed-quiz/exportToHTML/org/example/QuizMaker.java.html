@@ -1,0 +1,137 @@
+<html>
+<head>
+<title>QuizMaker.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #000080; font-weight: bold;}
+.s1 { color: #000000;}
+.s2 { color: #008000; font-weight: bold;}
+.s3 { color: #0000ff;}
+.s4 { color: #808080; font-style: italic;}
+</style>
+</head>
+<body bgcolor="#ffffff">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#c0c0c0" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+QuizMaker.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span>org.example;
+<span class="s0">import </span>java.applet.*;
+<span class="s0">import </span>java.awt.*;
+
+<span class="s0">import </span>java.io.File;
+<span class="s0">import </span>java.io.IOException;
+<span class="s0">import </span>java.nio.charset.StandardCharsets;
+<span class="s0">import </span>java.util.ArrayList;
+<span class="s0">import </span>java.util.List;
+<span class="s0">import </span>java.util.Scanner;
+
+<span class="s0">public class </span>QuizMaker <span class="s0">extends </span>Applet{
+    <span class="s0">public void </span>paint(Graphics g){
+        g.drawString(<span class="s2">&quot;Welcome in Java Applet.&quot;</span>,<span class="s3">40</span>,<span class="s3">20</span>);
+    }
+
+    <span class="s0">public static void </span>main (String[] args) {
+
+        System.out.println(<span class="s2">&quot;Welcome to the Quiz Quest!&quot;</span>);
+        System.out.println(<span class="s2">&quot;Where too many questions is the point&quot;</span>);
+        System.out.println(<span class="s2">&quot;Here you will be tested on your knowledge&quot;</span>);
+        System.out.println(<span class="s2">&quot;of Listicles and Their Methods!&quot;</span>);
+        System.out.println(<span class="s2">&quot;All answers are subjective, but there is only one correct answer...&quot;</span>);
+
+        List&lt;QuizQuestion&gt; listOfQuestions = <span class="s0">new </span>ArrayList&lt;&gt;();
+        List&lt;String&gt; answers = <span class="s0">new </span>ArrayList&lt;&gt;();
+
+        Scanner userInput = <span class="s0">new </span>Scanner(System.in);
+        File file = <span class="s0">new </span>File(<span class="s2">&quot;Dolly-Parton-Quiz.txt&quot;</span>);
+
+        <span class="s0">try </span>(Scanner fileInput = <span class="s0">new </span>Scanner(file, StandardCharsets.UTF_8.name())) {
+
+            <span class="s0">int </span>red = <span class="s3">0</span>;
+            <span class="s0">int </span>blue = <span class="s3">0</span>;
+            <span class="s0">int </span>green = <span class="s3">0</span>;
+            <span class="s0">int </span>yellow = <span class="s3">0</span>;
+            String blend = <span class="s2">&quot;Blend&quot;</span>;
+
+
+            <span class="s0">while </span>(fileInput.hasNextLine()) {
+
+                String line = fileInput.nextLine();
+                String[] questionSplit = line.split(<span class="s2">&quot;</span><span class="s0">\\</span><span class="s2">|&quot;</span>);
+                QuizQuestion quizQuestion = <span class="s0">new </span>QuizQuestion(questionSplit);
+                listOfQuestions.add(quizQuestion);
+
+            }
+
+            <span class="s0">for </span>(QuizQuestion question : listOfQuestions) {
+                <span class="s0">if </span>(question.getQuestion() == <span class="s2">&quot;&quot;</span>) {
+                    System.out.println(findMostChosen(red, blue, green, yellow) + <span class="s2">&quot; This is the most fitting category for all of your the answers out of a total &quot; </span>+ listOfQuestions.size() + <span class="s2">&quot; questions asked.&quot;</span>);
+                    <span class="s0">break</span>;
+                }
+
+                System.out.println(question.getQuestion());
+                answers = question.getAnswers();
+                System.out.println(<span class="s2">&quot;1. &quot; </span>+ answers.get(<span class="s3">0</span>));
+                System.out.println(<span class="s2">&quot;2. &quot; </span>+ answers.get(<span class="s3">1</span>));
+                System.out.println(<span class="s2">&quot;3. &quot; </span>+ answers.get(<span class="s3">2</span>));
+                System.out.println(<span class="s2">&quot;4. &quot; </span>+ answers.get(<span class="s3">3</span>));
+                System.out.println(<span class="s2">&quot;5. &quot; </span>+ answers.get(<span class="s3">4</span>));
+                System.out.println(<span class="s2">&quot;6. &quot; </span>+ answers.get(<span class="s3">5</span>));
+                System.out.println(<span class="s2">&quot;Your Answer: &quot;</span>);
+                String userAnswer = userInput.nextLine();
+                <span class="s0">if </span>(userAnswer.equals(question.getRedGroupAnswer())) {
+                    System.out.println(<span class="s2">&quot;I'm making a tally...!&quot;</span>);
+                    red++;
+                }
+                <span class="s0">if </span>(userAnswer.equals(question.getBlueGroupAnswer())) {
+                    System.out.println(<span class="s2">&quot;I'm making a tally...!&quot;</span>);
+                    blue++;
+                }
+                <span class="s0">if </span>(userAnswer.equals(question.getGreenGroupAnswer())) {
+                    System.out.println(<span class="s2">&quot;I'm making a tally...!&quot;</span>);
+                    green++;
+                }
+                <span class="s0">if </span>(userAnswer.equals(question.getYellowGroupAnswer())) {
+                    System.out.println(<span class="s2">&quot;I'm making a tally...!&quot;</span>);
+                    yellow++;
+                }
+<span class="s4">//                else {</span>
+<span class="s4">//                    System.out.println(&quot;Sorry, I don't understand you&quot;);</span>
+<span class="s4">//                }</span>
+
+            }
+
+            System.out.println(findMostChosen(red, blue, green, yellow) + <span class="s2">&quot; This is the most fitting category for all of your the answers out of a total &quot; </span>+ listOfQuestions.size() + <span class="s2">&quot; questions asked.&quot;</span>);
+
+
+        } <span class="s0">catch </span>(IOException e) {
+            System.out.println(<span class="s2">&quot;Could not open file&quot;</span>);
+        }
+    }
+
+    <span class="s0">public static </span>String findMostChosen(<span class="s0">int </span>red, <span class="s0">int </span>blue, <span class="s0">int </span>green, <span class="s0">int </span>yellow) {
+        String redChoice = <span class="s2">&quot;You are a super fan!&quot;</span>;
+        String blueChoice = <span class="s2">&quot;You are a true fan.&quot;</span>;
+        String greenChoice = <span class="s2">&quot;You've heard of Dolly Parton, and probably love Jolene.&quot;</span>;
+        String yellowChoice = <span class="s2">&quot;You clearly haven't heard of Dolly Parton...&quot;</span>;
+        <span class="s0">if </span>(red &gt;= blue &amp;&amp; red &gt;= green &amp;&amp; red &gt;= yellow) {
+            <span class="s0">return </span>redChoice;
+        }
+        <span class="s0">if </span>(green &gt;= red &amp;&amp; green &gt;= blue &amp;&amp; green &gt;= yellow) {
+            <span class="s0">return </span>greenChoice;
+        }
+        <span class="s0">if </span>(blue &gt;= red &amp;&amp; blue &gt;= green &amp;&amp; blue &gt;= yellow) {
+            <span class="s0">return </span>blueChoice;
+        }
+        <span class="s0">if </span>(yellow &gt;= red &amp;&amp; yellow &gt;= blue &amp;&amp; yellow &gt;= green) {
+            <span class="s0">return </span>yellowChoice;
+        } <span class="s0">else </span>{
+            <span class="s0">return </span><span class="s2">&quot;You are sending me mixed signals. Try taking the quiz again!&quot;</span>;
+        }
+    }
+}
+
+</pre>
+</body>
+</html>
