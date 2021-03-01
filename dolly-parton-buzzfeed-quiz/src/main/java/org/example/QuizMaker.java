@@ -1,8 +1,5 @@
 package org.example;
-import java.applet.Applet;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.Graphics;
+
 
 import java.io.File;
 import java.io.IOException;
@@ -11,13 +8,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class QuizMaker extends Applet{
-    public void paint(Graphics g) {
-        setBackground(Color.CYAN);   // set background color
-        g.setColor(Color.BLACK);     // set foreground text color
-        g.setFont(new Font("Times New Roman", Font.BOLD, 30)); // set font face, bold and size
-        g.drawString("How Much Do You Like Dolly Parton?", 20, 80);  // draw string with baseline at (20, 80)
-    }
+public class QuizMaker {
+
 
     public static void main (String[] args) {
 
